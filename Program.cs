@@ -1,3 +1,4 @@
+using InventoryManagement.Data.Repositories;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +14,16 @@ builder.Services.AddDbContext<ApplicationDBContext>(options =>
 });
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddTransient<IRepository<Admin>, AdminRepository>();
+builder.Services.AddTransient<IRepository<Customer>, CustomerRepository>();
+builder.Services.AddTransient<IRepository<Product>, ProductRepository>();
+builder.Services.AddTransient<IRepository<Category>,CategoryRepository>();
+builder.Services.AddTransient<IRepository<Inventory>, InventoryRepository>();
+builder.Services.AddTransient<IRepository<Order>,OrderRepository>();
+builder.Services.AddTransient<IRepository<Purchase>,PurchaseRepository>();
+builder.Services.AddTransient<IRepository<Sale>, SaleRepository>();
+builder.Services.AddTransient<IRepository<Role>,RoleRepository>(); 
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo

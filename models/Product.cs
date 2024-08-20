@@ -2,21 +2,17 @@ namespace InventoryManagement.Models
 {
     public class Product
     {
-        public int Id {get; set;}
+        public int Id { get; set; }
+        public string Name { get; set; } = null!;
+        public decimal Price { get; set; }
+        public string ProductPicture { get; set; } = null!;
+        public int CategoryId { get; set; }
+        public Category Category { get; set; } = null!;
+        public ICollection<Sale> Sales { get; set; } = null!;
+        public ICollection<OrderDetail> OrderDetails { get; set; } = null!;
 
-        public int ProductDetailId {get; set;}
 
-        public ProductDetail productDetail {get; set;} = null!;
-
-        public int CategoryId {get; set;}
-
-        public Category category {get; set;} = null!;
-
-        public ICollection<Sale> Sales {get; set;} = null!;
-
-        public ICollection<Inventory> Inventories {get; set;} = null!;
-
-        public ICollection<Customer> Customers {get; set;} = null!;
-        
+        public int InventoryId { get; set; }
+        public Inventory Inventory { get; set; } = null!;
     }
 }

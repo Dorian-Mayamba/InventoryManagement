@@ -6,13 +6,9 @@ namespace InventoryManagement.Data.Config
     {
         public void Configure(EntityTypeBuilder<Order> builder)
         {
-            builder.HasOne(o=>o.customer)
+            builder.HasOne(o=>o.Customer)
             .WithMany(c=>c.Orders)
             .HasForeignKey(o=>o.CustomerId);
-
-            builder.HasMany(o=>o.Purchases)
-            .WithOne(p=>p.order)
-            .HasForeignKey(p=>p.OrderId);
         }
     }
 }

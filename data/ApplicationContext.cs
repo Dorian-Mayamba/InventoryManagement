@@ -31,10 +31,7 @@ namespace InventoryManagement.Data
         public DbSet<Order> orders {get; set;}
 
         public DbSet<Purchase> purchases {get; set;}
-
         public DbSet<Product> products {get; set;}
-        public DbSet<ProductDetail> productDetails {get; set;}
-
         public DbSet<Sale> sales {get; set;}
 
     }

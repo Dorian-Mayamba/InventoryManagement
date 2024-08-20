@@ -1,5 +1,6 @@
-using Microsoft.AspNetCore.Http;
+using InventoryManagement.Data.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using AutoMapper;
 
 namespace InventoryManagement.Controllers
 {
@@ -7,94 +8,74 @@ namespace InventoryManagement.Controllers
     [ApiController]
     public class CustomerController : ControllerBase
     {
-        private readonly ApplicationDBContext _context;
+        private readonly IRepository<Customer> customerRepository;
+        private readonly IMapper mapper;
 
-        public CustomerController(ApplicationDBContext context)
+        public CustomerController(IRepository<Customer> repository, IMapper mapper)
         {
-            _context = context;
+            customerRepository = repository;
+            this.mapper = mapper;
         }
 
         //GET: api/Customers
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Customer>>> getCustomers()
+        public async Task<ActionResult<IEnumerable<CustomerDTO>>> getCustomers()
         {
-            var customers = await _context.customers.ToListAsync();
-
-            return customers;
+            var customerList = await customerRepository.GetAsync();
+            var customers = mapper.Map<IEnumerable<CustomerDTO>>(customerList);
+            return Ok(customers);
         }
 
         [HttpPost]
         //POST: api/Customers
-        public async Task<ActionResult<Customer>> createCustomer(Customer customer)
+        public async Task<IActionResult> createCustomer([FromBody] AddCustomerDTO addCustomerDTO)
         {
-            _context.customers.Add(customer);
-            await _context.SaveChangesAsync();
+            var newCustomer = mapper.Map<AddCustomerDTO, Customer>(addCustomerDTO);
+            newCustomer.RoleId = 2;
 
-            return CreatedAtAction(nameof(getCustomer), new {id = customer.Id}, customer);
+            await customerRepository.AddAsync(newCustomer);
 
+            return CreatedAtAction(nameof(getCustomer), new {id = newCustomer.Id}, null);
         }
 
         [HttpGet("{id}")]
         //GET: api/Customers/3
-        public async Task<ActionResult<Customer>> getCustomer(long id)
+        public async Task<ActionResult<CustomerDTO>> getCustomer(int id)
         {
-            var customer = await _context.customers.FindAsync(id);
+            var customer = await customerRepository.GetAsync(id);
+            
+            var customerDto = mapper.Map<CustomerDTO>(customer);
 
-            return customer != null ? customer : NotFound();
+            return Ok(customerDto);
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<Customer>> updateCustomer(long id, Customer customer)
+        public async Task<IActionResult> updateCustomer(int id, [FromBody] EditCustomerDTO customer)
         {
             if (id != customer.Id)
             {
                 return BadRequest();
             }
 
-            var customerToUpdate = await _context.customers.FindAsync(id);
-
+            var customerToUpdate = await customerRepository.GetAsync(id);
             if(customerToUpdate == null)
             {
-                return NotFound();
+                throw new Exception("Customer not found");
             }
-            customerToUpdate.Email = customer.Email;
-            customerToUpdate.Name = customer.Name;
-            customerToUpdate.Password = customer.Password;
 
-            _context.Entry(customerToUpdate).State = EntityState.Modified;
+            customerToUpdate = mapper.Map(customer,customerToUpdate);
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException) when(!CustomerExits(id))
-            {
-                return NotFound();
-            }
+            await customerRepository.EditAsync(customerToUpdate);
 
             return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Customer>> deleteCustomer(long id)
+        public async Task<IActionResult> deleteCustomer(int id)
         {
-            
-            var customer = await _context.customers.FindAsync(id);
-
-            if(customer == null)
-            {
-                return NotFound();
-            }
-
-            _context.customers.Remove(customer);
-            await _context.SaveChangesAsync();
+            await customerRepository.DeleteAsync(id);
 
             return NoContent();
-        }
-
-        private bool CustomerExits(long id)
-        {
-            return _context.customers.Any(c=>c.Id == id);
         }
     }
 }
