@@ -81,7 +81,7 @@ DocProject/Help/html
 
 # Root files
 
-./appsettings.json
+appsettings.json
 
 # Click-Once directory
 publish
