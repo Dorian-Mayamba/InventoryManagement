@@ -79,6 +79,10 @@ DocProject/Help/*.hhp
 DocProject/Help/Html2
 DocProject/Help/html
 
+# Root files
+
+./appsettings.json
+
 # Click-Once directory
 publish
 
