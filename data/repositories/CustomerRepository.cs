@@ -35,7 +35,6 @@ namespace InventoryManagement.Data.Repositories
         {
             return await _context.customers
             .Include(c=>c.Orders)
-            .Include(c=>c.Products)
             .ToListAsync();
         }
 
@@ -43,7 +42,6 @@ namespace InventoryManagement.Data.Repositories
         {
             var customer = await _context.customers
             .Include(c=>c.Orders)
-            .Include(c=>c.Products)
             .FirstAsync(c=>c.Id == id);
             if(customer == null)
             {

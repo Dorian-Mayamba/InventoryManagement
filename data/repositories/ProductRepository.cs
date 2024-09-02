@@ -3,7 +3,7 @@ namespace InventoryManagement.Data.Repositories
 {
     public class ProductRepository : IRepository<Product>
     {
-        private ApplicationDBContext _context;
+        private readonly ApplicationDBContext _context;
 
         public ProductRepository(ApplicationDBContext context)
         {

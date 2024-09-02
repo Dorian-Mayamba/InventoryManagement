@@ -6,5 +6,6 @@ namespace InventoryManagement.Models
         public string Name { get; set; } = null!;
         public int LocationId {get; set;}
         public Location Location {get; set;} = null!;
+        public ICollection<Inventory> Inventories {get;set;} = null!;
     }
 }

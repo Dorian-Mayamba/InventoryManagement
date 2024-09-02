@@ -1,9 +1,4 @@
-using System.Diagnostics;
-using InventoryManagement.Dtos.Products;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Newtonsoft.Json;
-using AutoMapper;
-using System.Diagnostics.Contracts;
 
 namespace InventoryManagement.Data.Config
 {
@@ -13,18 +8,17 @@ namespace InventoryManagement.Data.Config
 
         public void Configure(EntityTypeBuilder<Product> builder)
         {
-
-            builder.HasMany(p => p.Sales)
-            .WithOne(s => s.product)
-            .HasForeignKey(s => s.ProductId);
-
             builder.HasOne(p => p.Inventory)
             .WithOne(i => i.Product)
-            .HasForeignKey<Product>("InventoryId");
-
+            .HasForeignKey<Product>(p=>p.InventoryId);
+            
             builder.HasOne(p => p.Category)
             .WithMany(c => c.Products)
             .HasForeignKey(p => p.CategoryId);
+
+            builder.HasMany(p=>p.ProductItems)
+            .WithOne(p=>p.Product)
+            .HasForeignKey(p=>p.ProductId);
 
             builder.HasData(
                 new Product() { Id = 1, Name = "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops", Price = 109.95m, CategoryId = 3, ProductPicture = "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg", InventoryId = 1 },

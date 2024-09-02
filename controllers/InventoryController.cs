@@ -25,7 +25,7 @@ namespace InventoryManagement.Controllers
 
             var inventoryDTOs = mapper.Map<IEnumerable<InventoryDTO>>(inventories);
 
-            return Ok(inventoryDTOs.GroupBy(i=>i.ProductId));
+            return Ok(inventoryDTOs);
         }
 
         [HttpPost]

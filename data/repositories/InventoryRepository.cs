@@ -34,7 +34,6 @@ namespace InventoryManagement.Data.Repositories
         public async Task<IEnumerable<Inventory>> GetAsync()
         {
             return await _context.inventories
-                .DistinctBy(x=>x.ProductId)
                 .Include(i=>i.Product)
                 .ThenInclude(p=>p.Category)
                 .ToListAsync();

@@ -8,10 +8,8 @@ namespace InventoryManagement.Models
         public string ProductPicture { get; set; } = null!;
         public int CategoryId { get; set; }
         public Category Category { get; set; } = null!;
-        public ICollection<Sale> Sales { get; set; } = null!;
         public ICollection<OrderDetail> OrderDetails { get; set; } = null!;
-
-
+        public ICollection<ProductItem> ProductItems {get; set;} = null!;
         public int InventoryId { get; set; }
         public Inventory Inventory { get; set; } = null!;
     }

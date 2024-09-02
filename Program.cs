@@ -21,8 +21,8 @@ builder.Services.AddTransient<IRepository<Category>,CategoryRepository>();
 builder.Services.AddTransient<IRepository<Inventory>, InventoryRepository>();
 builder.Services.AddTransient<IRepository<Order>,OrderRepository>();
 builder.Services.AddTransient<IRepository<Purchase>,PurchaseRepository>();
-builder.Services.AddTransient<IRepository<Sale>, SaleRepository>();
 builder.Services.AddTransient<IRepository<Role>,RoleRepository>(); 
+builder.Services.AddTransient<IRepository<ProductItem>, ProductItemRepository>();
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddSwaggerGen(c =>
 {

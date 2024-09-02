@@ -1,6 +1,5 @@
 using AutoMapper;
 using InventoryManagement.Dtos.Products;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
 namespace InventoryManagement.AutoMapperProfiles
 {
     public class ProductProfiles: Profile
