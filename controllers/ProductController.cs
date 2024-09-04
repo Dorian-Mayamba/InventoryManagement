@@ -38,9 +38,7 @@ namespace InventoryManagement.Controllers
             var category = await categoryRepository.GetAsync(addProductDTO.Category.Id);
             newProduct.Category = category;
             await repository.AddAsync(newProduct);
-
             return CreatedAtAction(nameof(GetProduct), new {Id = newProduct.Id}, addProductDTO);
-            
         }
 
         [HttpPut("{id}")]
@@ -51,10 +49,8 @@ namespace InventoryManagement.Controllers
             if (productToEdit == null)
             {
                 throw new Exception($"Product with product id {id} not found");
-            }
-            
+            }            
             productToEdit = mapper.Map(editProductDTO, productToEdit);
-
             await repository.EditAsync(productToEdit);
             return NoContent();
         }

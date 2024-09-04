@@ -82,6 +82,7 @@ DocProject/Help/html
 # Root files
 
 appsettings.json
+inventory_management.db
 
 # Click-Once directory
 publish

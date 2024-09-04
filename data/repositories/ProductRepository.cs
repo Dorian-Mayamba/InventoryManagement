@@ -4,7 +4,6 @@ namespace InventoryManagement.Data.Repositories
     public class ProductRepository : IRepository<Product>
     {
         private readonly ApplicationDBContext _context;
-
         public ProductRepository(ApplicationDBContext context)
         {
             _context = context;
@@ -36,7 +35,10 @@ namespace InventoryManagement.Data.Repositories
         {
             return await _context.products.
             Include(c=>c.Category)
-            .Include(i=>i.Inventory)
+            .Include(p=>p.Inventory)
+            .Include(p=>p.ProductItems)
+            .ThenInclude(p=>p.Variation)
+            .ThenInclude(v=>v.Size)
             .ToListAsync();
         }
 
@@ -44,7 +46,10 @@ namespace InventoryManagement.Data.Repositories
         {
             var product = await _context.products
             .Include(c=>c.Category)
-            .Include(i=>i.Inventory)
+            .Include(p=>p.Inventory)
+            .Include(p=>p.ProductItems)
+            .ThenInclude(p=>p.Variation)
+            .ThenInclude(v=>v.Size)
             .FirstAsync(p=>p.Id == id);
             if(product == null)
             {

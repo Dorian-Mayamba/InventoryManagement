@@ -9,6 +9,10 @@ namespace InventoryManagement.Data.Config
             builder.HasMany(c=>c.Orders)
             .WithOne(o=>o.Customer)
             .HasForeignKey(o => o.CustomerId);
+
+            builder.HasData(
+                new Customer {Id = 1, Name = "John Doe", Email="John.Doe@gmail.com", Password="123123", RoleId = 2}
+            );
         }
     }
 }
