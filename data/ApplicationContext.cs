@@ -1,14 +1,18 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+
 namespace InventoryManagement.Data
 {
-    public class ApplicationDBContext:DbContext
+    public class ApplicationDBContext:IdentityDbContext<User>
     {
         public ApplicationDBContext(DbContextOptions<ApplicationDBContext> options) : base(options)
         {
 
         }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<User>()
                 .ToTable("Users")
                 .HasDiscriminator<int>("UserType")
@@ -34,7 +38,6 @@ namespace InventoryManagement.Data
         public DbSet<Variation> variations {get; set;}
         public DbSet<OrderDetail> orderDetails {get;set;}
         public DbSet<Store> stores {get; set;}
-
         public DbSet<Size> sizes {get; set;}
     }
 }

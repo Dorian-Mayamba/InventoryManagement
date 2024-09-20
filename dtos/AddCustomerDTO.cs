@@ -1,4 +1,4 @@
 namespace InventoryManagement.Dtos
 {
-    public record AddCustomerDTO(string Name, string Email, string Password);
+    public record AddCustomerDTO(string Email, string Password);
 }

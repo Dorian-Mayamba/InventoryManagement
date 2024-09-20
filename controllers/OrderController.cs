@@ -10,9 +10,9 @@ namespace InventoryManagement.Controllers
     public class OrderController:ControllerBase
     {
         private readonly IRepository<Order> orderRepository;
-        private readonly IRepository<Customer> customerRespository;
+        private readonly IUserRepository<Customer> customerRespository;
         private readonly IMapper mapper;   
-        public OrderController(IRepository<Order> repository, IMapper mapper, IRepository<Customer> customerRepo)
+        public OrderController(IRepository<Order> repository, IMapper mapper, IUserRepository<Customer> customerRepo)
         {   
             orderRepository = repository;
             this.mapper = mapper;
@@ -37,7 +37,7 @@ namespace InventoryManagement.Controllers
         }
 
         [HttpPost("{customerId}")]
-        public async Task<ActionResult<MakeOrderResponse>> MakeOrder(int customerId, [FromBody] AddOrderDTO addOrderDTO)
+        public async Task<ActionResult<MakeOrderResponse>> MakeOrder(string customerId, [FromBody] AddOrderDTO addOrderDTO)
         {
             var newOrder = mapper.Map<Order>(addOrderDTO);
             newOrder.CustomerId = customerId;

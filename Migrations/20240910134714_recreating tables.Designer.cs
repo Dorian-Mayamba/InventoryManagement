@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InventoryManagement.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20240821223351_Added new models")]
-    partial class Addednewmodels
+    [Migration("20240910134714_recreating tables")]
+    partial class recreatingtables
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -339,11 +339,12 @@ namespace InventoryManagement.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int");
+                    b.Property<string>("CustomerId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
 
-                    b.Property<int>("TotalPrice")
-                        .HasColumnType("int");
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("decimal(65,30)");
 
                     b.HasKey("Id");
 
@@ -375,7 +376,7 @@ namespace InventoryManagement.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("OrderDetail");
+                    b.ToTable("orderDetails");
                 });
 
             modelBuilder.Entity("InventoryManagement.Models.Product", b =>
@@ -387,9 +388,6 @@ namespace InventoryManagement.Migrations
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("CustomerId")
                         .HasColumnType("int");
 
                     b.Property<int>("InventoryId")
@@ -409,8 +407,6 @@ namespace InventoryManagement.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
-
-                    b.HasIndex("CustomerId");
 
                     b.HasIndex("InventoryId")
                         .IsUnique();
@@ -600,6 +596,384 @@ namespace InventoryManagement.Migrations
                         });
                 });
 
+            modelBuilder.Entity("InventoryManagement.Models.ProductItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<int>("VariationId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("VariationId");
+
+                    b.ToTable("productItems");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ProductId = 1,
+                            Quantity = 20,
+                            VariationId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ProductId = 1,
+                            Quantity = 20,
+                            VariationId = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ProductId = 1,
+                            Quantity = 20,
+                            VariationId = 3
+                        },
+                        new
+                        {
+                            Id = 4,
+                            ProductId = 1,
+                            Quantity = 20,
+                            VariationId = 4
+                        },
+                        new
+                        {
+                            Id = 5,
+                            ProductId = 1,
+                            Quantity = 20,
+                            VariationId = 5
+                        },
+                        new
+                        {
+                            Id = 6,
+                            ProductId = 2,
+                            Quantity = 20,
+                            VariationId = 1
+                        },
+                        new
+                        {
+                            Id = 7,
+                            ProductId = 2,
+                            Quantity = 20,
+                            VariationId = 2
+                        },
+                        new
+                        {
+                            Id = 8,
+                            ProductId = 2,
+                            Quantity = 20,
+                            VariationId = 3
+                        },
+                        new
+                        {
+                            Id = 9,
+                            ProductId = 2,
+                            Quantity = 20,
+                            VariationId = 4
+                        },
+                        new
+                        {
+                            Id = 10,
+                            ProductId = 2,
+                            Quantity = 20,
+                            VariationId = 5
+                        },
+                        new
+                        {
+                            Id = 11,
+                            ProductId = 3,
+                            Quantity = 20,
+                            VariationId = 1
+                        },
+                        new
+                        {
+                            Id = 12,
+                            ProductId = 3,
+                            Quantity = 20,
+                            VariationId = 2
+                        },
+                        new
+                        {
+                            Id = 13,
+                            ProductId = 3,
+                            Quantity = 20,
+                            VariationId = 3
+                        },
+                        new
+                        {
+                            Id = 14,
+                            ProductId = 3,
+                            Quantity = 20,
+                            VariationId = 4
+                        },
+                        new
+                        {
+                            Id = 15,
+                            ProductId = 3,
+                            Quantity = 20,
+                            VariationId = 5
+                        },
+                        new
+                        {
+                            Id = 16,
+                            ProductId = 4,
+                            Quantity = 20,
+                            VariationId = 1
+                        },
+                        new
+                        {
+                            Id = 17,
+                            ProductId = 4,
+                            Quantity = 20,
+                            VariationId = 2
+                        },
+                        new
+                        {
+                            Id = 18,
+                            ProductId = 4,
+                            Quantity = 20,
+                            VariationId = 3
+                        },
+                        new
+                        {
+                            Id = 19,
+                            ProductId = 4,
+                            Quantity = 20,
+                            VariationId = 4
+                        },
+                        new
+                        {
+                            Id = 20,
+                            ProductId = 4,
+                            Quantity = 20,
+                            VariationId = 5
+                        },
+                        new
+                        {
+                            Id = 21,
+                            ProductId = 15,
+                            Quantity = 20,
+                            VariationId = 6
+                        },
+                        new
+                        {
+                            Id = 22,
+                            ProductId = 15,
+                            Quantity = 20,
+                            VariationId = 7
+                        },
+                        new
+                        {
+                            Id = 23,
+                            ProductId = 15,
+                            Quantity = 20,
+                            VariationId = 8
+                        },
+                        new
+                        {
+                            Id = 24,
+                            ProductId = 15,
+                            Quantity = 20,
+                            VariationId = 9
+                        },
+                        new
+                        {
+                            Id = 25,
+                            ProductId = 15,
+                            Quantity = 20,
+                            VariationId = 10
+                        },
+                        new
+                        {
+                            Id = 26,
+                            ProductId = 16,
+                            Quantity = 20,
+                            VariationId = 6
+                        },
+                        new
+                        {
+                            Id = 27,
+                            ProductId = 16,
+                            Quantity = 20,
+                            VariationId = 7
+                        },
+                        new
+                        {
+                            Id = 28,
+                            ProductId = 16,
+                            Quantity = 20,
+                            VariationId = 8
+                        },
+                        new
+                        {
+                            Id = 29,
+                            ProductId = 16,
+                            Quantity = 20,
+                            VariationId = 9
+                        },
+                        new
+                        {
+                            Id = 30,
+                            ProductId = 16,
+                            Quantity = 20,
+                            VariationId = 10
+                        },
+                        new
+                        {
+                            Id = 31,
+                            ProductId = 17,
+                            Quantity = 20,
+                            VariationId = 6
+                        },
+                        new
+                        {
+                            Id = 32,
+                            ProductId = 17,
+                            Quantity = 20,
+                            VariationId = 7
+                        },
+                        new
+                        {
+                            Id = 33,
+                            ProductId = 17,
+                            Quantity = 20,
+                            VariationId = 8
+                        },
+                        new
+                        {
+                            Id = 34,
+                            ProductId = 17,
+                            Quantity = 20,
+                            VariationId = 9
+                        },
+                        new
+                        {
+                            Id = 35,
+                            ProductId = 17,
+                            Quantity = 20,
+                            VariationId = 10
+                        },
+                        new
+                        {
+                            Id = 36,
+                            ProductId = 18,
+                            Quantity = 20,
+                            VariationId = 6
+                        },
+                        new
+                        {
+                            Id = 37,
+                            ProductId = 18,
+                            Quantity = 20,
+                            VariationId = 7
+                        },
+                        new
+                        {
+                            Id = 38,
+                            ProductId = 18,
+                            Quantity = 20,
+                            VariationId = 8
+                        },
+                        new
+                        {
+                            Id = 39,
+                            ProductId = 18,
+                            Quantity = 20,
+                            VariationId = 9
+                        },
+                        new
+                        {
+                            Id = 40,
+                            ProductId = 18,
+                            Quantity = 20,
+                            VariationId = 10
+                        },
+                        new
+                        {
+                            Id = 41,
+                            ProductId = 19,
+                            Quantity = 20,
+                            VariationId = 6
+                        },
+                        new
+                        {
+                            Id = 42,
+                            ProductId = 19,
+                            Quantity = 20,
+                            VariationId = 7
+                        },
+                        new
+                        {
+                            Id = 43,
+                            ProductId = 19,
+                            Quantity = 20,
+                            VariationId = 8
+                        },
+                        new
+                        {
+                            Id = 44,
+                            ProductId = 19,
+                            Quantity = 20,
+                            VariationId = 9
+                        },
+                        new
+                        {
+                            Id = 45,
+                            ProductId = 19,
+                            Quantity = 20,
+                            VariationId = 10
+                        },
+                        new
+                        {
+                            Id = 46,
+                            ProductId = 20,
+                            Quantity = 20,
+                            VariationId = 6
+                        },
+                        new
+                        {
+                            Id = 48,
+                            ProductId = 20,
+                            Quantity = 20,
+                            VariationId = 7
+                        },
+                        new
+                        {
+                            Id = 49,
+                            ProductId = 20,
+                            Quantity = 20,
+                            VariationId = 8
+                        },
+                        new
+                        {
+                            Id = 50,
+                            ProductId = 20,
+                            Quantity = 20,
+                            VariationId = 9
+                        },
+                        new
+                        {
+                            Id = 51,
+                            ProductId = 20,
+                            Quantity = 20,
+                            VariationId = 10
+                        });
+                });
+
             modelBuilder.Entity("InventoryManagement.Models.Purchase", b =>
                 {
                     b.Property<int>("Id")
@@ -653,6 +1027,55 @@ namespace InventoryManagement.Migrations
                         });
                 });
 
+            modelBuilder.Entity("InventoryManagement.Models.Size", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("sizes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "XS"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "S"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "M"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "L"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "XL"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "XXL"
+                        });
+                });
+
             modelBuilder.Entity("InventoryManagement.Models.Store", b =>
                 {
                     b.Property<int>("Id")
@@ -672,7 +1095,7 @@ namespace InventoryManagement.Migrations
 
                     b.HasIndex("LocationId");
 
-                    b.ToTable("Store");
+                    b.ToTable("stores");
 
                     b.HasData(
                         new
@@ -703,39 +1126,301 @@ namespace InventoryManagement.Migrations
 
             modelBuilder.Entity("InventoryManagement.Models.User", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Email")
-                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
+
+                    b.Property<string>("PasswordHash")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
+                    b.Property<string>("PhoneNumber")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
 
                     b.Property<int>("UserType")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex");
+
                     b.HasIndex("RoleId");
 
                     b.ToTable("Users", (string)null);
 
-                    b.HasDiscriminator<int>("UserType");
+                    b.HasDiscriminator<int>("UserType").HasValue(2);
 
                     b.UseTphMappingStrategy();
+                });
+
+            modelBuilder.Entity("InventoryManagement.Models.Variation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SizeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("SizeId");
+
+                    b.ToTable("variations");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CategoryId = 3,
+                            SizeId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CategoryId = 3,
+                            SizeId = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CategoryId = 3,
+                            SizeId = 3
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CategoryId = 3,
+                            SizeId = 4
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CategoryId = 3,
+                            SizeId = 5
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CategoryId = 3,
+                            SizeId = 6
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CategoryId = 4,
+                            SizeId = 2
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CategoryId = 4,
+                            SizeId = 3
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CategoryId = 4,
+                            SizeId = 4
+                        },
+                        new
+                        {
+                            Id = 10,
+                            CategoryId = 4,
+                            SizeId = 5
+                        },
+                        new
+                        {
+                            Id = 11,
+                            CategoryId = 4,
+                            SizeId = 6
+                        });
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex");
+
+                    b.ToTable("AspNetRoles", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("RoleId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetRoleClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("RoleId")
+                        .HasColumnType("varchar(255)");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens", (string)null);
                 });
 
             modelBuilder.Entity("InventoryManagement.Models.Admin", b =>
@@ -749,7 +1434,7 @@ namespace InventoryManagement.Migrations
                 {
                     b.HasBaseType("InventoryManagement.Models.User");
 
-                    b.HasDiscriminator().HasValue(2);
+                    b.HasDiscriminator().HasValue(3);
                 });
 
             modelBuilder.Entity("InventoryManagement.Models.Inventory", b =>
@@ -812,10 +1497,6 @@ namespace InventoryManagement.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("InventoryManagement.Models.Customer", null)
-                        .WithMany("Products")
-                        .HasForeignKey("CustomerId");
-
                     b.HasOne("InventoryManagement.Models.Inventory", "Inventory")
                         .WithOne("Product")
                         .HasForeignKey("InventoryManagement.Models.Product", "InventoryId")
@@ -825,6 +1506,25 @@ namespace InventoryManagement.Migrations
                     b.Navigation("Category");
 
                     b.Navigation("Inventory");
+                });
+
+            modelBuilder.Entity("InventoryManagement.Models.ProductItem", b =>
+                {
+                    b.HasOne("InventoryManagement.Models.Product", "Product")
+                        .WithMany("ProductItems")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("InventoryManagement.Models.Variation", "Variation")
+                        .WithMany("ProductItems")
+                        .HasForeignKey("VariationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("Variation");
                 });
 
             modelBuilder.Entity("InventoryManagement.Models.Purchase", b =>
@@ -860,9 +1560,81 @@ namespace InventoryManagement.Migrations
                     b.Navigation("Role");
                 });
 
+            modelBuilder.Entity("InventoryManagement.Models.Variation", b =>
+                {
+                    b.HasOne("InventoryManagement.Models.Category", "Category")
+                        .WithMany("Variations")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("InventoryManagement.Models.Size", "Size")
+                        .WithMany("Variations")
+                        .HasForeignKey("SizeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Size");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.HasOne("InventoryManagement.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.HasOne("InventoryManagement.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("InventoryManagement.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.HasOne("InventoryManagement.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("InventoryManagement.Models.Category", b =>
                 {
                     b.Navigation("Products");
+
+                    b.Navigation("Variations");
                 });
 
             modelBuilder.Entity("InventoryManagement.Models.Inventory", b =>
@@ -890,6 +1662,8 @@ namespace InventoryManagement.Migrations
             modelBuilder.Entity("InventoryManagement.Models.Product", b =>
                 {
                     b.Navigation("OrderDetails");
+
+                    b.Navigation("ProductItems");
                 });
 
             modelBuilder.Entity("InventoryManagement.Models.Role", b =>
@@ -897,16 +1671,24 @@ namespace InventoryManagement.Migrations
                     b.Navigation("Users");
                 });
 
+            modelBuilder.Entity("InventoryManagement.Models.Size", b =>
+                {
+                    b.Navigation("Variations");
+                });
+
             modelBuilder.Entity("InventoryManagement.Models.Store", b =>
                 {
                     b.Navigation("Inventories");
                 });
 
+            modelBuilder.Entity("InventoryManagement.Models.Variation", b =>
+                {
+                    b.Navigation("ProductItems");
+                });
+
             modelBuilder.Entity("InventoryManagement.Models.Customer", b =>
                 {
                     b.Navigation("Orders");
-
-                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

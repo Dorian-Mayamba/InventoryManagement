@@ -4,5 +4,5 @@ using InventoryManagement.Dtos.Products;
 
 namespace InventoryManagement.Dtos
 {
-    public record CustomerDTO(int Id, string Name, string Email, ICollection<OrderDTO> Orders);
+    public record CustomerDTO(string Id, string Email, ICollection<OrderDTO> Orders);
 }

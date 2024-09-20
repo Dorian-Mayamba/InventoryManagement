@@ -1,21 +1,18 @@
 using InventoryManagement.Data.Repositories;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.OpenApi.Models;
+using InventoryManagement.Extensions;
+using InventoryManagement.CustomStores;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 
-// configure sql connection
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<ApplicationDBContext>(options =>
-{
-    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
-});
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddTransient<IRepository<Admin>, AdminRepository>();
-builder.Services.AddTransient<IRepository<Customer>, CustomerRepository>();
+builder.Services.AddTransient<IUserRepository<Customer>, CustomerRepository>();
 builder.Services.AddTransient<IRepository<Product>, ProductRepository>();
 builder.Services.AddTransient<IRepository<Category>,CategoryRepository>();
 builder.Services.AddTransient<IRepository<Inventory>, InventoryRepository>();
@@ -23,6 +20,9 @@ builder.Services.AddTransient<IRepository<Order>,OrderRepository>();
 builder.Services.AddTransient<IRepository<Purchase>,PurchaseRepository>();
 builder.Services.AddTransient<IRepository<Role>,RoleRepository>(); 
 builder.Services.AddTransient<IRepository<ProductItem>, ProductItemRepository>();
+builder.Services.AddTransient<IUserStore<Customer>, CustomUserStore>();
+builder.Services.AddTransient<UserManager<Customer>>();
+builder.Services.AddTransient<IPasswordHasher<Customer>, PasswordHasher<Customer>>();
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddSwaggerGen(c =>
 {
@@ -39,6 +39,25 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
+//Add Authentication
+builder.Services.AddAuthentication()
+    .AddBearerToken(IdentityConstants.BearerScheme);
+//Add authorization
+builder.Services.AddAuthorization();
+
+// configure sql connection
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<ApplicationDBContext>(options =>
+{
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+});
+
+//Add Identity Core
+builder.Services
+    .AddIdentityCore<User>()
+    .AddEntityFrameworkStores<ApplicationDBContext>()
+    .AddApiEndpoints();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -54,11 +73,14 @@ else if(app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.CustomMapIdentityApi<Customer>();
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapRazorPages();

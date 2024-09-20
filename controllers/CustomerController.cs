@@ -8,10 +8,10 @@ namespace InventoryManagement.Controllers
     [ApiController]
     public class CustomerController : ControllerBase
     {
-        private readonly IRepository<Customer> customerRepository;
+        private readonly IUserRepository<Customer> customerRepository;
         private readonly IMapper mapper;
 
-        public CustomerController(IRepository<Customer> repository, IMapper mapper)
+        public CustomerController(IUserRepository<Customer> repository, IMapper mapper)
         {
             customerRepository = repository;
             this.mapper = mapper;
@@ -40,7 +40,7 @@ namespace InventoryManagement.Controllers
 
         [HttpGet("{id}")]
         //GET: api/Customers/3
-        public async Task<ActionResult<CustomerDTO>> getCustomer(int id)
+        public async Task<ActionResult<CustomerDTO>> getCustomer(string id)
         {
             var customer = await customerRepository.GetAsync(id);
             
